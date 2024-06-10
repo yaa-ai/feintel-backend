@@ -14,7 +14,7 @@ class Settings(BaseSettings):
     # a stable SECRET_KEY is prefered.
 
     # SECRET_KEY: str = secrets.token_urlsafe(32)
-    SECRET_KEY: str = os.environ.get("JWT_SECRET_KEY")
+    SECRET_KEY: str = os.environ.get("JWT_SECRET_KEY",'')
     
 
 # MONGO_USER=
