@@ -1,0 +1,15 @@
+requests
+pymongo
+fastapi
+uvicorn
+python-multipart
+motor
+pydantic
+email-validator
+python-jose
+passlib
+bcrypt
+beanie
+python-dotenv
+fastapi-sso
+pydantic-settings
