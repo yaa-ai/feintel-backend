@@ -1,19 +1,20 @@
-FROM tiangolo/uvicorn-gunicorn-fastapi:latest
-ENV PYTHONUNBUFFERED=true
+# Use an official Python runtime as a parent image
+FROM python:3.11
+
+# Set the working directory
 WORKDIR /app
 
-ENV POETRY_HOME=/opt/poetry
-# ENV POETRY_VIRTUALENVS_IN_PROJECT=true
-ENV PATH="$POETRY_HOME/bin:$PATH"
-RUN curl -sSL https://install.python-poetry.org | python3 -
-RUN poetry config virtualenvs.create false
-# Copy poetry.lock* in case it doesn't exist in the repo
-# COPY ./pyproject.toml ./poetry.lock* /app/
-COPY . /app/
-
-# Allow installing dev dependencies to run tests
-ARG INSTALL_DEV=false
-RUN bash -c "if [ $INSTALL_DEV == 'true' ] ; then poetry install --no-root ; else poetry install --no-root --no-dev ; fi"
-
+# Copy the current directory contents into the container
 COPY . /app
-ENV PYTHONPATH=/app
+
+# Install Poetry
+RUN pip install poetry
+
+# Install dependencies
+RUN poetry install --no-dev
+
+# Make port 8000 available to the world outside this container
+EXPOSE 8000
+
+# Run app.py when the container launches
+CMD ["poetry", "run", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
