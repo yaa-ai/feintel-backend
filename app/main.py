@@ -15,6 +15,8 @@ from contextlib import asynccontextmanager
 
 async def init_db():
     client = AsyncIOMotorClient(os.environ.get("MONGO_URL"))
+    db_names = await client.list_database_names()
+    print(f"----------------{db_names}")
     database = client[os.environ.get("MONGO_DB","FeIntel")]
     await init_beanie(database, document_models=[User])
 
